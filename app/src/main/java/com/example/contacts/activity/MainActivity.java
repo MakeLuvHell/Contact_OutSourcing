@@ -17,9 +17,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
-/**
- * ceshiyong
- */
 public class MainActivity extends AppCompatActivity {
 
     @Override
