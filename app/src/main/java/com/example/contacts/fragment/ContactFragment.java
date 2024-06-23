@@ -18,7 +18,7 @@ import com.example.contacts.R;
 import com.example.contacts.adapter.ContactAdapter;
 
 import com.example.contacts.viewmodel.ContactViewModel;
-//test
+//test git checkout -b
 
 public class ContactFragment extends Fragment {
     private RecyclerView recyclerView;

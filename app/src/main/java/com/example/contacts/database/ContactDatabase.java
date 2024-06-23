@@ -11,7 +11,7 @@ import com.example.contacts.database.dao.GroupDao;
 import com.example.contacts.model.Contact;
 import com.example.contacts.model.Group;
 
-@Database(entities = {Contact.class, Group.class}, version = 2, exportSchema = false)
+@Database(entities = {Contact.class, Group.class}, version = 3, exportSchema = false)
 public abstract class ContactDatabase extends RoomDatabase {
     private static volatile ContactDatabase instance;
     public abstract ContactDao contactDao();
