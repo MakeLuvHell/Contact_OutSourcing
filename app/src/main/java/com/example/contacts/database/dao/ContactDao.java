@@ -1,4 +1,4 @@
-package com.example.contacts.dao;
+package com.example.contacts.database.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
