@@ -66,7 +66,6 @@ public class ContactEditActivity extends AppCompatActivity {
                     nameEditText.getText().toString(),
                     phoneEditText.getText().toString(),
                     emailEditText.getText().toString()
-
             );
             contactViewModel.insert(contact);
             Log.d("ContactFragment","saved！" );

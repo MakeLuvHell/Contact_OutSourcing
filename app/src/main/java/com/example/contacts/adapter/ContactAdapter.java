@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,8 +22,12 @@ import com.example.contacts.activity.ContactDetailActivity;
 import com.example.contacts.model.Contact;
 import com.example.contacts.viewmodel.ContactViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactViewHolder> {
     private final Context context;
+    private List<Contact> contactListFull; // 这个列表保存所有联系人数据
     private final ContactViewModel contactViewModel;
 
     public ContactAdapter(Context context, ContactViewModel contactViewModel) {
@@ -113,5 +118,34 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
                     .setNegativeButton("取消", null)
                     .show();
         }
+    }
+
+    @Override
+    public void submitList(@Nullable List<Contact> list) {
+        super.submitList(list != null ? new ArrayList<>(list) : null);
+        if (list != null) {
+            if (contactListFull == null) {
+                contactListFull = new ArrayList<>(list);
+            } else {
+                contactListFull.clear();
+                contactListFull.addAll(list);
+            }
+        }
+    }
+
+    // 添加过滤方法
+    public void filter(String text) {
+        List<Contact> filteredList = new ArrayList<>();
+        if (text == null || text.isEmpty()) {
+            filteredList = new ArrayList<>(contactListFull); // 恢复原始视图
+        } else {
+            String filterPattern = text.toLowerCase().trim();
+            for (Contact contact : contactListFull) {
+                if (contact.getName().toLowerCase().contains(filterPattern)) {
+                    filteredList.add(contact);
+                }
+            }
+        }
+        super.submitList(filteredList);
     }
 }
