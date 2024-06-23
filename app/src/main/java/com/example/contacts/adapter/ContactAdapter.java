@@ -47,6 +47,7 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // 创建并返回 ContactViewHolder
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_contact_card, parent, false);
 
@@ -55,6 +56,7 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
+        // 绑定联系人数据到视图
         Contact currentContact = getItem(position);
         holder.bind(currentContact);
     }
@@ -103,6 +105,7 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
         }
 
         private void showDeleteConfirmationDialog(Contact contact) {
+            // 显示删除确认对话框
             new AlertDialog.Builder(context)
                     .setTitle("删除联系人")
                     .setMessage("你确定要删除该联系人？")

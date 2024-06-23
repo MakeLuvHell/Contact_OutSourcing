@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.contacts.R;
 import com.example.contacts.adapter.ViewPagerAdapter;
 import com.example.contacts.fragment.ContactFragment;
+import com.example.contacts.fragment.GroupFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
@@ -22,25 +23,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*EdgeToEdge.enable(this);*/
         setContentView(R.layout.activity_main);
-        ViewPager viewPager = findViewById(R.id.view_pager);
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ContactFragment(), "联系人");
-
-        TabLayout tabLayout = findViewById(R.id.tab_layout_test);
-
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
 
         setupToolbar();
+        setupViewPagerAndTabs();
     }
 
+    /**
+     * 初始化并设置工具栏。
+     */
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("联系人");
+    }
+
+    /**
+     * 初始化并设置 ViewPager 和 TabLayout。
+     */
+    private void setupViewPagerAndTabs() {
+        TabLayout tabLayout = findViewById(R.id.tab_layout_test);
+        ViewPager viewPager = findViewById(R.id.view_pager);
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ContactFragment(), "联系人");
+        adapter.addFragment(new GroupFragment(), "分组");
+
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -49,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // 待设置页面添加修改
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_add){
             Intent intent = new Intent(this, ContactEditActivity.class);

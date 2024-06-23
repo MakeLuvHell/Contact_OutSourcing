@@ -1,4 +1,6 @@
 package com.example.contacts.fragment;
 
-public class GroupFragment {
+import androidx.fragment.app.Fragment;
+
+public class GroupFragment extends Fragment {
 }
