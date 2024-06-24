@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,13 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.contacts.R;
 import com.example.contacts.activity.ContactDetailActivity;
 import com.example.contacts.model.Contact;
 import com.example.contacts.viewmodel.ContactViewModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,11 +104,26 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
         public void bind(Contact contact) {
             nameTextView.setText(contact.getName());
             phoneTextView.setText(contact.getPhone());
+            // 检查联系人是否有图片URI
             if (contact.getPhotoUri() != null) {
-                Glide.with(context)
-                        .load(contact.getPhotoUri())
-                        .into(contactImageView);
+                // 解析图片URI
+                Uri photoUri = Uri.parse(contact.getPhotoUri());
+                Log.d("ContactAdapter", "Photo URI: " + photoUri.toString());
+
+                // 创建文件对象，检查文件是否存在
+                File file = new File(photoUri.getPath());
+                if (file.exists()) {
+                    // 使用Glide加载图片文件到ImageView
+                    Glide.with(context)
+                            .load(file)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(contactImageView);
+                } else {
+                    // 如果文件不存在，使用默认图片
+                    contactImageView.setImageResource(R.drawable.ic_default);
+                }
             } else {
+                // 如果没有图片URI，使用默认图片
                 contactImageView.setImageResource(R.drawable.ic_default);
             }
         }

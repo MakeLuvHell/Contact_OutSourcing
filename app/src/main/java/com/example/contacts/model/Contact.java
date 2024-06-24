@@ -19,10 +19,11 @@ public class Contact {
     private int groupId;
 
     @Ignore
-    public Contact(String name, String phone, String email) {
+    public Contact(String name, String phone, String email,String photoUri) {
         this.name = name;
         this.phone = phone;
         this.email = email;
+        this.photoUri=photoUri;
     }
 
     public Contact() {}

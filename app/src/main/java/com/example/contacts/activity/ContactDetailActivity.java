@@ -1,6 +1,7 @@
 package com.example.contacts.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.contacts.R;
 import com.example.contacts.model.Contact;
 import com.example.contacts.viewmodel.ContactViewModel;
@@ -44,6 +47,12 @@ public class ContactDetailActivity extends AppCompatActivity {
                     nameTextView.setText(contact.getName());
                     phoneTextView.setText(contact.getPhone());
                     emailTextView.setText(contact.getEmail());
+                }
+                if (contact.getPhotoUri() != null) {
+                    Glide.with(this)
+                            .load(Uri.parse(contact.getPhotoUri()))
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(contactImageView);
                 }
             });
         }
