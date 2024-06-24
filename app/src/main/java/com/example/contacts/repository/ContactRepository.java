@@ -6,7 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.contacts.database.dao.ContactDao;
+import com.example.contacts.dao.ContactDao;
 import com.example.contacts.database.ContactDatabase;
 import com.example.contacts.model.Contact;
 
