@@ -17,13 +17,16 @@ public class Contact {
     private String photoUri;
     private boolean isHeader;
     private int groupId;
+    private String group;
 
     @Ignore
-    public Contact(String name, String phone, String email,String photoUri) {
+    public Contact(String name, String phone, String email,int groupId, String group, String photoUri) {
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.photoUri=photoUri;
+        this.groupId = groupId;
+        this.group = group;
+        this.photoUri = photoUri;
     }
 
     public Contact() {}
@@ -94,5 +97,13 @@ public class Contact {
     @Override
     public String toString() {
         return name + "," + phone + "," + email;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

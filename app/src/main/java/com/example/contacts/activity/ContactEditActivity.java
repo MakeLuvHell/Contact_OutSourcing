@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,13 +18,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.contacts.R;
 import com.example.contacts.model.Contact;
+import com.example.contacts.model.Group;
 import com.example.contacts.viewmodel.ContactViewModel;
+import com.example.contacts.viewmodel.GroupViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ContactEditActivity extends AppCompatActivity {
@@ -33,6 +39,8 @@ public class ContactEditActivity extends AppCompatActivity {
     private ContactViewModel contactViewModel;
     private Contact contact;
     private Uri photoUri;
+    private Spinner groupSpinner;
+    private final List<Group> groupList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +53,11 @@ public class ContactEditActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.edit_email);
         contactImageView = findViewById(R.id.contact_image);
         saveContactButton = findViewById(R.id.save_contact_button);
-
+        groupSpinner = findViewById(R.id.edit_group_spinner);
         // 初始化ViewModel
         contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
+
 
         // 获取联系人ID并加载详细信息
         int contactId = getIntent().getIntExtra("CONTACT_ID", -1);
@@ -59,6 +69,12 @@ public class ContactEditActivity extends AppCompatActivity {
                     nameEditText.setText(contact.getName());
                     phoneEditText.setText(contact.getPhone());
                     emailEditText.setText(contact.getEmail());
+                    for (int i = 0; i < groupList.size(); i++) {
+                        if (groupList.get(i).getId() == contact.getGroupId()) {
+                            groupSpinner.setSelection(i);
+                            break;
+                        }
+                    }
                     if (contact.getPhotoUri() != null) {
                         photoUri = Uri.parse(contact.getPhotoUri());
                         Glide.with(this)
@@ -75,6 +91,8 @@ public class ContactEditActivity extends AppCompatActivity {
         saveContactButton.setOnClickListener(view -> saveContact());
 
         setupToolbar();
+
+        loadGroupData(groupViewModel);
     }
 
     // 打开相册选择器
@@ -85,11 +103,21 @@ public class ContactEditActivity extends AppCompatActivity {
 
     // 保存联系人
     private void saveContact() {
+        int selectedGroupId = -1;
+        String selectedGroupName = "未分组";
+
+        if (groupSpinner.getSelectedItemPosition() > 0) {
+            selectedGroupId = groupList.get(groupSpinner.getSelectedItemPosition() - 1).getId();
+            selectedGroupName = groupList.get(groupSpinner.getSelectedItemPosition() - 1).getName();
+        }
+
         if (contact == null) {
             contact = new Contact(
                     nameEditText.getText().toString(),
                     phoneEditText.getText().toString(),
                     emailEditText.getText().toString(),
+                    selectedGroupId,
+                    selectedGroupName,
                     photoUri != null ? photoUri.toString() : null
             );
             contactViewModel.insert(contact);
@@ -152,6 +180,24 @@ public class ContactEditActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    private void loadGroupData(GroupViewModel groupViewModel) {
+        // 从 ViewModel 加载分组数据并填充到 Spinner 中
+        groupViewModel.getAllGroups().observe(this, groups -> {
+            groupList.clear();
+            groupList.addAll(groups);
+            List<String> groupNames = new ArrayList<>();
+            groupNames.add("未分组");
+            for (Group group : groups) {
+                groupNames.add(group.getName());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, groupNames);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            groupSpinner.setAdapter(adapter);
+        });
+    }
+
+
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_edit);

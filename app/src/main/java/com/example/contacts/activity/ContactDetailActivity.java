@@ -22,7 +22,7 @@ import java.util.Objects;
 
 public class ContactDetailActivity extends AppCompatActivity {
     private ImageView contactImageView;
-    private TextView nameTextView, phoneTextView, emailTextView;
+    private TextView nameTextView, phoneTextView, emailTextView, groupTextView;
     private Contact contact;
 
     @Override
@@ -35,6 +35,7 @@ public class ContactDetailActivity extends AppCompatActivity {
         nameTextView = findViewById(R.id.name_text);
         phoneTextView = findViewById(R.id.phone_text);
         emailTextView = findViewById(R.id.email_text);
+        groupTextView = findViewById(R.id.group_text);
 
         // 获取联系人ID并加载详细信息
         int contactId = getIntent().getIntExtra("CONTACT_ID", -1);
@@ -47,6 +48,7 @@ public class ContactDetailActivity extends AppCompatActivity {
                     nameTextView.setText(contact.getName());
                     phoneTextView.setText(contact.getPhone());
                     emailTextView.setText(contact.getEmail());
+                    groupTextView.setText(contact.getGroup());
                 }
                 if (contact.getPhotoUri() != null) {
                     Glide.with(this)

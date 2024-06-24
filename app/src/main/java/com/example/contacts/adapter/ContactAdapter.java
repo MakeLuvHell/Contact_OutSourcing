@@ -33,6 +33,7 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
     private final Context context;
     private List<Contact> contactListFull; // 这个列表保存所有联系人数据
     private final ContactViewModel contactViewModel;
+    private List<Contact> contacts = new ArrayList<>(); // 初始化为空列表
 
     public ContactAdapter(Context context, ContactViewModel contactViewModel) {
         super(DIFF_CALLBACK);
@@ -143,6 +144,9 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
     // 用于提交新的联系人列表并更新数据集。
     @Override
     public void submitList(@Nullable List<Contact> list){
+        if (contacts == null) {
+            contacts = new ArrayList<>(); // 防止传入空列表
+        }
         super.submitList(list != null ? new ArrayList<>(list) : null);
         if (list != null) {
             if (contactListFull == null) {
@@ -152,22 +156,5 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
                 contactListFull.addAll(list);
             }
         }
-    }
-
-    // 对联系人进行列表进行过滤
-    public void filter(String text){
-        List<Contact> filteredList = new ArrayList<>();
-        if (text == null || text.isEmpty()){
-            // 恢复原始视图
-            filteredList = new ArrayList<>(contactListFull);
-        } else {
-          String filterPattern = text.toLowerCase().trim();
-            for (Contact contact : contactListFull) {
-                if (contact.getName().toLowerCase().contains(filterPattern)) {
-                    filteredList.add(contact);
-                }
-            }
-        }
-        super.submitList(filteredList);
     }
 }
