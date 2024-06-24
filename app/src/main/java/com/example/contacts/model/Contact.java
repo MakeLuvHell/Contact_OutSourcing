@@ -1,5 +1,7 @@
 package com.example.contacts.model;
 
+import android.util.SparseArray;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -85,5 +87,18 @@ public class Contact {
     @Override
     public String toString() {
         return name + "," + phone + "," + email;
+    }
+
+    public static Contact fromString(String  str){
+        String[] part = str.split(",");
+        if(part.length < 3){
+            throw new IllegalArgumentException("Invalid contact string: " + str);
+        }
+        Contact con = new Contact();
+        con.setName(part[0]);
+        con.setPhone(part[1]);
+        con.setEmail(part[2]);
+        return con;
+
     }
 }
