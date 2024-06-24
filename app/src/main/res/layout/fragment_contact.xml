@@ -11,8 +11,7 @@
         android:layout_height="0dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/side_letter_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_view" />
 
@@ -28,8 +27,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="@string/Search_hint" />
 
-
-
-
+    <com.example.contacts.view.SideLetterBar
+        android:id="@+id/side_letter_bar"
+        android:layout_width="24dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
