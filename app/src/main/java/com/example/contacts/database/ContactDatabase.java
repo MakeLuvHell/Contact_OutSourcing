@@ -6,8 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.contacts.database.dao.ContactDao;
-import com.example.contacts.database.dao.GroupDao;
+import com.example.contacts.dao.ContactDao;
+import com.example.contacts.dao.GroupDao;
 import com.example.contacts.model.Contact;
 import com.example.contacts.model.Group;
 

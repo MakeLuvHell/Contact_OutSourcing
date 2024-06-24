@@ -110,6 +110,7 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
         }
 
         private void showDeleteConfirmationDialog(Contact contact) {
+            // 显示删除确认对话框
             new AlertDialog.Builder(context)
                     .setTitle("删除联系人")
                     .setMessage("你确定要删除该联系人？")
