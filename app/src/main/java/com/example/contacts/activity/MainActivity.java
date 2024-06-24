@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // 待设置页面添加修改
+    // 待设置页面实现添加跳转逻辑
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_add){
             Intent intent = new Intent(this, ContactEditActivity.class);

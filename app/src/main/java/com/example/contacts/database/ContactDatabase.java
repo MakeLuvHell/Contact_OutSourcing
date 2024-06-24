@@ -11,7 +11,7 @@ import com.example.contacts.dao.GroupDao;
 import com.example.contacts.model.Contact;
 import com.example.contacts.model.Group;
 
-@Database(entities = {Contact.class, Group.class}, version = 1, exportSchema = false)
+@Database(entities = {Contact.class, Group.class}, version = 3, exportSchema = false)
 public abstract class ContactDatabase extends RoomDatabase {
     private static volatile ContactDatabase instance;
     public abstract ContactDao contactDao();
@@ -19,7 +19,8 @@ public abstract class ContactDatabase extends RoomDatabase {
 
     public static synchronized ContactDatabase getInstance(Context context){
         if (instance == null){
-            instance = Room.databaseBuilder(context.getApplicationContext(), ContactDatabase.class,"contact_database")
+            instance = Room.databaseBuilder(context.getApplicationContext(),
+                            ContactDatabase.class, "contact_database")
                     .fallbackToDestructiveMigration()
                     .build();
         }

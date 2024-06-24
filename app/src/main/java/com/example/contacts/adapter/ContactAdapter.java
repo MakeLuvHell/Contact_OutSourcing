@@ -139,8 +139,10 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
         }
     }
 
+    // 对 Adapter 中的 submitList() 方法进行重写
+    // 用于提交新的联系人列表并更新数据集。
     @Override
-    public void submitList(@Nullable List<Contact> list) {
+    public void submitList(@Nullable List<Contact> list){
         super.submitList(list != null ? new ArrayList<>(list) : null);
         if (list != null) {
             if (contactListFull == null) {
@@ -152,13 +154,14 @@ public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactV
         }
     }
 
-    // 添加过滤方法
-    public void filter(String text) {
+    // 对联系人进行列表进行过滤
+    public void filter(String text){
         List<Contact> filteredList = new ArrayList<>();
-        if (text == null || text.isEmpty()) {
-            filteredList = new ArrayList<>(contactListFull); // 恢复原始视图
+        if (text == null || text.isEmpty()){
+            // 恢复原始视图
+            filteredList = new ArrayList<>(contactListFull);
         } else {
-            String filterPattern = text.toLowerCase().trim();
+          String filterPattern = text.toLowerCase().trim();
             for (Contact contact : contactListFull) {
                 if (contact.getName().toLowerCase().contains(filterPattern)) {
                     filteredList.add(contact);
